@@ -14,9 +14,9 @@ public class Solution  {
 	static String[] sequence = {"B", "G", "E", "A", "C", "I", "J", "D", "H", "F"};
 	
 	static Map<String, Integer> productionTimes = new HashMap<String, Integer>();
-	static ArrayList<String> productOrder = new ArrayList<String>();
-	static Integer[][] changeover;
-	static int numberOfProducts;
+	static ArrayList<String> configOrder = new ArrayList<String>();
+	static Integer[][] changeover;		//represents the asymmetric changeover matrix
+	static int numberOfProducts;		
 	
 	
 	
@@ -24,12 +24,15 @@ public class Solution  {
 	
 	public static void main(String[] args) throws Exception {
 		
+		//import production times and changeover data from csv files
 		readConfiguration();
+		
 		System.out.println("Number of products: " + numberOfProducts);
 		System.out.println("-------------------------------------------");
 		
 		int baseCost=0;
 		int changeOverCost=0;
+		
 		
 		for(String product : sequence) {
 			baseCost+=productionTimes.get(product);
@@ -47,7 +50,7 @@ public class Solution  {
 		System.out.println("Initial Total Cost (Changeover + Base): " + (changeOverCost+baseCost));
 		
 		
-		
+		//Greedy Heuristic: Neighbor Swap
 		while(true)
 		{
 			int swappedProductIndex=0;
@@ -58,10 +61,7 @@ public class Solution  {
 			
 			for(int i=0; i<sequence.length-1; i++) {
 				String product1 = sequence[i];
-				String product2 = sequence[i+1];
-				
-				
-				
+				String product2 = sequence[i+1];				
 				int currentChangeover = getChangeover(product1, product2);
 				int alternateChangeover = getChangeover(product2, product1);	//changeover cost as a result of switching
 				int timeSaved = currentChangeover-alternateChangeover;			//we want this value to be big
@@ -114,7 +114,7 @@ public class Solution  {
 	
 	
 	public static int getChangeover(String a, String b) {
-		return changeover[productOrder.indexOf(a)][productOrder.indexOf(b)];
+		return changeover[configOrder.indexOf(a)][configOrder.indexOf(b)];
 	}
 	
 	
@@ -131,7 +131,7 @@ public class Solution  {
 			String[] entries = line.split(",");
 			if(entries.length!=2) {throw new Exception("production_information file not in correct format");}
 			productionTimes.put(entries[0], Integer.parseInt(entries[1]));
-			productOrder.add(entries[0]);
+			configOrder.add(entries[0]);
 			numberOfProducts++;
 		}		
 		
