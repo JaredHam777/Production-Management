@@ -12,7 +12,7 @@ public class Solution  {
 
 	//sequence from initial prompt.  Feel free to change
 	static String[] sequence = {"B", "G", "E", "A", "C", "I", "J", "D", "H", "F"};
-	
+	//static String[] sequence = {"B", "G", "E", "A", "C", "I", "J", "J", "D", "H", "F", "G", "E", "A", "C", "I", "J", "D", "G", "E", "A", "C", "I", "J", "D", "H"};
 	static Map<String, Integer> productionTimes = new HashMap<String, Integer>();
 	static ArrayList<String> configOrder = new ArrayList<String>();
 	static Integer[][] changeover;		//represents the asymmetric changeover matrix
@@ -114,6 +114,7 @@ public class Solution  {
 	
 	
 	public static int getChangeover(String a, String b) {
+		if(a==b) {return 0;}	//this shouldn't happen unless sequence has at least two consecutive products that are the same
 		return changeover[configOrder.indexOf(a)][configOrder.indexOf(b)];
 	}
 	
