@@ -114,7 +114,7 @@ public class Solution  {
 	
 	
 	public static int getChangeover(String a, String b) {
-		if(a==b) {return 0;}	//this shouldn't happen unless sequence has at least two consecutive products that are the same
+		if(a==b) {return 0;}	//this shouldn't happen unless sequence has at least two consecutive products that are the same. Should probably throw exception(?)
 		return changeover[configOrder.indexOf(a)][configOrder.indexOf(b)];
 	}
 	
